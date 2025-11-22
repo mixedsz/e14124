@@ -1,0 +1,15 @@
+if cfg.notification ~= 'ps-ui' then return end
+
+local isClient = not IsDuplicityVersion()
+if isClient then
+    notify = function(text, type)
+        if type == 'inform' then type = 'info' end
+        exports['ps-ui']:Notify(desc, type)
+    end
+
+    RegisterNetEvent(('%s:client:notify'):format(cache.resource), notify)
+else
+    notify = function(playerId, text, type)
+        TriggerClientEvent(('%s:client:notify'):format(cache.resource), playerId, text, type)
+    end
+end
